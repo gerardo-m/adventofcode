@@ -11,7 +11,7 @@ func main() {
 	// n := getLineInt()[0]
 	// P1()
 	// P2_1(n, getLineInt)
-	P3()
+	P3_1()
 }
 
 func getLine() string {
