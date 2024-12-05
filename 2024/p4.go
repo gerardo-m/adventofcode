@@ -127,3 +127,95 @@ func P4(readLine func(bufio.Reader) (string, error)) {
 	}
 	fmt.Println(count)
 }
+
+type expectedLetter struct {
+	word   string
+	lPos   int
+	offset int
+}
+
+/*
+S..S..S
+.A.A.A.
+..MMM..
+SAMXMAS
+..MMM..
+.A.A.A.
+S..S..S
+7 3
+...XMAS ...SMAX
+..MMM.. ..AAA..
+.A.A.A. .M.M.M.
+S..S..S X..X..X
+
+	struct{
+		word,
+		lPos,
+		offset,
+	}
+
+	1
+	lineL - 1
+	lineL
+	lineL + 1
+
+XMAS, SAMX
+expectedLetter
+
+	for every letter in the puzzle{
+		if letter is beggining of a word
+			expectedLetter[pos+offset] << struct(word, 1, offset)
+		if letter is in expectedLetter[pos]
+			if it is the last letter in the word
+				success
+			else
+				expectedLetter[pos+offset] << struct(word, previous lPos + 1, offset)
+	}
+*/
+func P4_o() {
+	fi, err := os.Open("input4.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := fi.Close(); err != nil {
+			panic(err)
+		}
+	}()
+	scanner := bufio.NewScanner(fi)
+	words := []string{
+		"XMAS",
+		"SAMX",
+	}
+	count := 0
+	expectedLetters := make(map[int][]expectedLetter)
+	for lineNumber := 0; scanner.Scan(); lineNumber++ {
+		line := scanner.Text()
+		lineL := len(line)
+		for i := 0; i < lineL; i++ {
+			currPos := lineNumber*lineL + i
+			for _, word := range words {
+				if line[i] == word[0] {
+					if i+len(word) <= lineL {
+						expectedLetters[currPos+1] = append(expectedLetters[currPos+1], expectedLetter{word, 1, 1})
+						expectedLetters[currPos+lineL+1] = append(expectedLetters[currPos+lineL+1], expectedLetter{word, 1, lineL + 1})
+					}
+					if i >= len(word)-1 {
+						expectedLetters[currPos+lineL-1] = append(expectedLetters[currPos+lineL-1], expectedLetter{word, 1, lineL - 1})
+					}
+					expectedLetters[currPos+lineL] = append(expectedLetters[currPos+lineL], expectedLetter{word, 1, lineL})
+				}
+			}
+			for _, expLetter := range expectedLetters[currPos] {
+				if expLetter.word[expLetter.lPos] == line[i] {
+					if expLetter.lPos == len(expLetter.word)-1 {
+						count++
+					} else {
+						expectedLetters[currPos+expLetter.offset] = append(expectedLetters[currPos+expLetter.offset], expectedLetter{expLetter.word, expLetter.lPos + 1, expLetter.offset})
+					}
+				}
+			}
+		}
+	}
+	fmt.Println(count)
+}
