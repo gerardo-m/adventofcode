@@ -219,3 +219,67 @@ func P4_o() {
 	}
 	fmt.Println(count)
 }
+
+/*
+
+M.M M.S S.M S.S
+.A. .A. .A. .A.
+S.S M.S S.M M.M
+
+MMASS MSAMS SMASM SSAMM
+2
+lineL-1 letter is A
+lineL-1
+2
+*/
+
+func P4_2() {
+	fi, err := os.Open("input4.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := fi.Close(); err != nil {
+			panic(err)
+		}
+	}()
+	scanner := bufio.NewScanner(fi)
+	words := []string{
+		"MMASS",
+		"MSAMS",
+		"SMASM",
+		"SSAMM",
+	}
+	count := 0
+	expectedLetters := make(map[int][]expectedLetter)
+	for lineNumber := 0; scanner.Scan(); lineNumber++ {
+		line := scanner.Text()
+		lineL := len(line)
+		for i := 0; i < lineL; i++ {
+			currPos := lineNumber*lineL + i
+			for _, word := range words {
+				if line[i] == word[0] {
+					if i+3 <= lineL {
+						expectedLetters[currPos+2] = append(expectedLetters[currPos+2], expectedLetter{word, 1, 2})
+					}
+				}
+			}
+			for _, expLetter := range expectedLetters[currPos] {
+				if expLetter.word[expLetter.lPos] == line[i] {
+					if expLetter.lPos == len(expLetter.word)-1 {
+						count++
+					} else {
+						var newOffset int
+						if expLetter.offset == 2 || line[i] == 'A' {
+							newOffset = lineL - 1
+						} else {
+							newOffset = 2
+						}
+						expectedLetters[currPos+newOffset] = append(expectedLetters[currPos+newOffset], expectedLetter{expLetter.word, expLetter.lPos + 1, newOffset})
+					}
+				}
+			}
+		}
+	}
+	fmt.Println(count)
+}
