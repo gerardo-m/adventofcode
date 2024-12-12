@@ -110,18 +110,21 @@ func P11_1() {
 			nStones[val]++
 		}
 		stoneCount := len(stones)
-		for i := 0; i < 6; i++ {
+		for i := 0; i < 75; i++ {
 			// fmt.Println(gMap)
-			fmt.Println(nStones)
-			fmt.Println("graph", gMap)
+			// fmt.Println("This is blink ", i, nStones)
+			// fmt.Println("graph", gMap)
 			nStonesClone := maps.Clone(nStones)
 			for k := range maps.Keys(nStonesClone) {
-				v := nStones[k]
+
+				v := nStonesClone[k]
+				// fmt.Printf("With %v, there are %v stones.\n", k, v)
 				if v == 0 {
 					continue
 				}
 				ar, ok := gMap[k]
 				if !ok || len(ar) == 0 {
+					// fmt.Println("Not found in map", gMap)
 					if len(strconv.Itoa(k))%2 == 0 {
 						toSplit := strconv.Itoa(k)
 						val1 := toSplit[:len(toSplit)/2]
@@ -129,8 +132,10 @@ func P11_1() {
 						val1I, _ := strconv.Atoi(strings.TrimLeft(val1, "0"))
 						val2I, _ := strconv.Atoi(strings.TrimLeft(val2, "0"))
 						gMap[k] = []int{val1I, val2I}
+						// fmt.Println("Added to map", gMap)
 					} else {
 						gMap[k] = []int{k * 2024}
+						// fmt.Println("Added to map", gMap)
 					}
 					ar = gMap[k]
 				}
@@ -139,6 +144,13 @@ func P11_1() {
 				for _, nK := range ar {
 					nStones[nK] = nStones[nK] + v
 				}
+				// fmt.Println("Updated stones")
+				// for k := range maps.Keys(nStones) {
+				// 	if nStones[k] > 0 {
+				// 		fmt.Printf("%v stones with %v value\n", nStones[k], k)
+				// 	}
+
+				// }
 			}
 		}
 		fmt.Println(stoneCount)
