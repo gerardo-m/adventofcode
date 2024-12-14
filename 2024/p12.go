@@ -304,19 +304,19 @@ func P12_1() {
 	fmt.Println(price)
 }
 
-func canMove(lineC, lineL, pos, move int, val byte, content []string) (can bool, newPos int) {
-	// r := pos / lineL
-	c := pos % lineL
-	newPos = pos + move
-	if newPos < 0 || newPos >= (lineC*lineL) {
-		return false, 0
-	}
-	if (move == 1 && c == lineL-1) || (move == -1 && c == 0) {
-		return false, 0
-	}
+// func canMove(lineC, lineL, pos, move int, val byte, content []string) (can bool, newPos int) {
+// 	// r := pos / lineL
+// 	c := pos % lineL
+// 	newPos = pos + move
+// 	if newPos < 0 || newPos >= (lineC*lineL) {
+// 		return false, 0
+// 	}
+// 	if (move == 1 && c == lineL-1) || (move == -1 && c == 0) {
+// 		return false, 0
+// 	}
 
-	if content[newPos/lineL][newPos%lineL] == val {
-		return true, newPos
-	}
-	return false, 0
-}
+// 	if content[newPos/lineL][newPos%lineL] == val {
+// 		return true, newPos
+// 	}
+// 	return false, 0
+// }

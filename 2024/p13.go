@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -159,67 +160,88 @@ func P13_1() {
 		pY, _ := strconv.Atoi(strings.Split(pr[1], "=")[1])
 		pX = pX + 10000000000000
 		pY = pY + 10000000000000
-		tx := pX / aX
-		ty := pY / aY
-		var mint int
-		if tx < ty {
-			mint = tx
-		} else {
-			mint = ty
+		// tx := pX / aX
+		// ty := pY / aY
+
+		x1 := -(aX*bY*pX - aX*pY*bX) / (aY*bX - bY*aX)
+		x2 := -(bX*aY*pX - bX*pY*aX) / (bY*aX - aY*bX)
+		fmt.Println(x1)
+		fmt.Println(x2)
+		if x1%aX == 0 {
+			rem := pX - x1
+			if rem%bX == 0 {
+				minCost = (x1/aX)*3 + rem/bX
+			}
 		}
+		if x2%bX == 0 {
+			rem := pX - x2
+			if rem%aX == 0 {
+				nMinCost := x2/bX + (rem/aX)*3
+				if minCost == 0 || minCost > nMinCost {
+					minCost = nMinCost
+				}
+			}
+		}
+		// var mint int
+		// if tx < ty {
+		// 	mint = tx
+		// } else {
+		// 	mint = ty
+		// }
+		// // if mint > 100 {
+		// // 	mint = 100
+		// // }
+		// dB := 1
+		// for ; mint > 0; mint-- {
+		// 	totx := aX*mint + dB*bX
+		// 	toty := aY*mint + dB*bY
+		// 	bB := dB
+		// 	for ; totx < pX && toty < pY; dB++ {
+		// 		totx = aX*mint + dB*bX
+		// 		toty = aY*mint + dB*bY
+		// 		bB = dB
+		// 	}
+
+		// 	if totx == pX && toty == pY {
+		// 		minCost = mint*3 + bB
+		// 		break
+		// 	}
+		// 	dB--
+		// }
+		// // } else {
+		// tx = pX / bX
+		// ty = pY / bY
+		// // var mint int
+		// if tx < ty {
+		// 	mint = tx
+		// } else {
+		// 	mint = ty
+		// }
 		// if mint > 100 {
 		// 	mint = 100
 		// }
-		dB := 1
-		for ; mint > 0; mint-- {
-			totx := aX*mint + dB*bX
-			toty := aY*mint + dB*bY
-			bB := dB
-			for ; totx < pX && toty < pY; dB++ {
-				totx = aX*mint + dB*bX
-				toty = aY*mint + dB*bY
-				bB = dB
-			}
+		// dA := 1
+		// for ; mint > 0; mint-- {
+		// 	totx := bX*mint + dA*aX
+		// 	toty := bY*mint + dA*aY
+		// 	bA := dA
+		// 	for ; totx < pX && toty < pY; dA++ {
+		// 		totx = bX*mint + dA*aX
+		// 		toty = bY*mint + dA*aY
+		// 		bA = dA
+		// 	}
 
-			if totx == pX && toty == pY {
-				minCost = mint*3 + bB
-				break
-			}
-			dB--
-		}
-		// } else {
-		tx = pX / bX
-		ty = pY / bY
-		// var mint int
-		if tx < ty {
-			mint = tx
-		} else {
-			mint = ty
-		}
-		if mint > 100 {
-			mint = 100
-		}
-		dA := 1
-		for ; mint > 0; mint-- {
-			totx := bX*mint + dA*aX
-			toty := bY*mint + dA*aY
-			bA := dA
-			for ; totx < pX && toty < pY; dA++ {
-				totx = bX*mint + dA*aX
-				toty = bY*mint + dA*aY
-				bA = dA
-			}
-
-			if totx == pX && toty == pY {
-				minCost2 := mint + bA*3
-				if minCost > 0 && minCost2 < minCost {
-					minCost = minCost2
-				}
-				break
-			}
-			dA--
-		}
+		// 	if totx == pX && toty == pY {
+		// 		minCost2 := mint + bA*3
+		// 		if minCost > 0 && minCost2 < minCost {
+		// 			minCost = minCost2
+		// 		}
+		// 		break
+		// 	}
+		// 	dA--
+		// }
 		fmt.Println(minCost)
+		fmt.Println(math.MaxInt32)
 		sum = sum + minCost
 
 		if !scanner.Scan() {
