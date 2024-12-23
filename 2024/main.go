@@ -12,7 +12,7 @@ func main() {
 	// P2_1(n, getLineInt)
 	// P3_1()
 	// P4(getLine)
-	P21_1()
+	P22_1o()
 }
 
 func getLine(reader bufio.Reader) (string, error) {
