@@ -22,7 +22,6 @@ func P1(fi *os.File) {
 		}
 		dir := line[:1]
 		rot, _ := strconv.Atoi(line[1:])
-		// fmt.Println(line + " " + dir + " " + strconv.Itoa(rot))
 		if dir == "L" {
 			rot = 100 - (rot % 100)
 		}
@@ -36,7 +35,42 @@ func P1(fi *os.File) {
 }
 
 func P1_2(fi *os.File) {
-	var a string
-	fmt.Fscanln(fi, &a)
-	fmt.Println("bye" + a)
+	var line string
+	pos := 50
+	zeroCounter := 0
+	atZero := false
+	for {
+		_, err := fmt.Fscanln(fi, &line)
+		if err != nil {
+			if err == io.EOF {
+				break
+			} else {
+				panic(err)
+			}
+		}
+		dir := line[:1]
+		rot, _ := strconv.Atoi(line[1:])
+		atZero = pos == 0
+		if dir == "L" {
+			pos = pos - rot
+			for pos < 0 {
+				pos = pos + 100
+				if atZero {
+					atZero = false
+				} else {
+					zeroCounter++
+				}
+			}
+			if pos == 0 {
+				zeroCounter++
+			}
+		} else {
+			pos = pos + rot
+			for pos > 99 {
+				pos = pos - 100
+				zeroCounter++
+			}
+		}
+	}
+	fmt.Println(zeroCounter)
 }
