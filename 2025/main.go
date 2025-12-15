@@ -14,6 +14,7 @@ type Problem struct {
 
 var problems = []Problem{
 	{P1, P1_2},
+	{P2, P2_2},
 }
 
 func main() {
