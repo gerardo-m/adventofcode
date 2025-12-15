@@ -15,6 +15,7 @@ type Problem struct {
 var problems = []Problem{
 	{P1, P1_2},
 	{P2, P2_2},
+	{P3, P3_2},
 }
 
 func main() {
@@ -53,6 +54,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer func() {
+		if err := fi.Close(); err != nil {
+			panic(err)
+		}
+	}()
 
 	problemNumber = problemNumber - 1
 	if *part < 1 || *part > 2 {
@@ -74,4 +80,17 @@ func printHelp() {
 func printList() {
 	// TODO
 	fmt.Println("List")
+}
+
+func runP2() {
+	fi, err := os.Open("./data/p2.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := fi.Close(); err != nil {
+			panic(err)
+		}
+	}()
+	P2_2(fi)
 }
