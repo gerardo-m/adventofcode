@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func P2(fi *os.File) {
+func P2(fi *os.File, debug bool) {
 	curNum := 0
 	n1 := 0
 	n2 := 0
@@ -74,7 +74,7 @@ func findAndSum(sum *int, n1 int, n2 int) {
 	}
 }
 
-func P2_2(fi *os.File) {
+func P2_2(fi *os.File, debug bool) {
 	curNum := 0
 	n1 := 0
 	n2 := 0

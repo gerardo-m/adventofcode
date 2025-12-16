@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func P1(fi *os.File) {
+func P1(fi *os.File, debug bool) {
 	var line string
 	pos := 50
 	zeroCounter := 0
@@ -34,7 +34,7 @@ func P1(fi *os.File) {
 	fmt.Println(zeroCounter)
 }
 
-func P1_2(fi *os.File) {
+func P1_2(fi *os.File, debug bool) {
 	var line string
 	pos := 50
 	zeroCounter := 0

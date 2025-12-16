@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func P3(fi *os.File) {
+func P3(fi *os.File, debug bool) {
 	chunk := make([]byte, 128)
 	sum := 0
 	n1 := 0
@@ -50,7 +50,7 @@ func P3(fi *os.File) {
 	fmt.Println(sum)
 }
 
-func P3_2(fi *os.File) {
+func P3_2(fi *os.File, debug bool) {
 	chunk := make([]byte, 128)
 	sum := 0
 	totalDigits := 12

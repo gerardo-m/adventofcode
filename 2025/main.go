@@ -8,8 +8,8 @@ import (
 )
 
 type Problem struct {
-	Part1 func(*os.File)
-	Part2 func(*os.File)
+	Part1 func(*os.File, bool)
+	Part2 func(*os.File, bool)
 }
 
 var problems = []Problem{
@@ -17,11 +17,13 @@ var problems = []Problem{
 	{P2, P2_2},
 	{P3, P3_2},
 	{P4, P4_2},
+	{P5, P5_2},
 }
 
 func main() {
 	isTest := flag.Bool("t", false, "Execute with test data")
 	part := flag.Int("p", 1, "Must be 1 or 2, defines the part of the problem to execute")
+	debug := flag.Bool("d", false, "Show more data")
 	flag.Parse()
 	args := flag.Args()
 
@@ -66,9 +68,9 @@ func main() {
 		*part = 1
 	}
 	if *part == 1 {
-		problems[problemNumber].Part1(fi)
+		problems[problemNumber].Part1(fi, *debug)
 	} else {
-		problems[problemNumber].Part2(fi)
+		problems[problemNumber].Part2(fi, *debug)
 	}
 
 }
@@ -83,8 +85,9 @@ func printList() {
 	fmt.Println("List")
 }
 
-func runP2() {
-	fi, err := os.Open("./data/p2.txt")
+func runP(n int, part int) {
+	fileName := fmt.Sprintf("./data/p%d.txt", n+1)
+	fi, err := os.Open(fileName)
 	if err != nil {
 		panic(err)
 	}
@@ -93,5 +96,9 @@ func runP2() {
 			panic(err)
 		}
 	}()
-	P2_2(fi)
+	if part == 1 {
+		problems[n].Part1(fi, false)
+	} else {
+		problems[n].Part2(fi, false)
+	}
 }
