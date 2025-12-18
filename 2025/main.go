@@ -18,6 +18,8 @@ var problems = []Problem{
 	{P3, P3_2},
 	{P4, P4_2},
 	{P5, P5_2},
+	{P6, P6_2},
+	{P7, P7_2},
 }
 
 func main() {
